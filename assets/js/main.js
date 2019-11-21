@@ -13,7 +13,26 @@
 
 	var selectionGlove = glow("selectionGlove").rgb("#0000A0").stdDeviation(7);
 	var atomSelected;
-	var atomClicked = function (dataPoint) {
+
+	var atomClicked = function(dataPoint)
+	{
+		patched_atomClicked(dataPoint.id);
+	};
+	
+	var retriveAtom;
+	var retrieveLink;
+
+	var patched_atomClicked = gameserver.Patch(function(id){
+		var me=retriveAtom(id);
+		var node = svg.selectAll(".node").data([me], function(n){
+			return n.id;
+		});
+
+		original_atomClicked.call(node[0][0], me);
+	});
+
+	var original_atomClicked=
+		function (dataPoint) {
 	 	if (dataPoint.symbol === "H")
 	 		return;
 
@@ -26,7 +45,22 @@
 	};
 
 	var bondSelected;
-	var bondClicked = function (dataPoint) {
+
+	var bondClicked = function(dataPoint)
+	{
+		patched_bondClicked(dataPoint.id);
+	};
+
+	var patched_bondClicked = gameserver.Patch(function(id){
+		var me=retrieveLink(id);
+		var link = svg.selectAll(".link").data([me], function(n){
+			return n.id;
+		});
+
+		bondClicked_original.call(link[0][0], me);
+	});
+	
+	var bondClicked_original = function (dataPoint) {
 	 	Messenger().post({
 				  message: 'New Bond Selected',
 				  type: 'info',
@@ -78,7 +112,8 @@
 			});
 	};
 
-	var newMoleculeSimulation = function (newMolecule, example) {
+
+	var original_newMoleculeSimulation = function (newMolecule, example) {
 		// Might be super dirty, but it works!
 		$('#moleculeDisplay').empty();
 		svg = d3.select("#moleculeDisplay").append("svg")
@@ -97,6 +132,7 @@
 		  hideAfter: 2
 		});
 	};
+	var newMoleculeSimulation = gameserver.Patch(original_newMoleculeSimulation);
 
 	window.loadMoleculeExample = function () {
 		newMoleculeSimulation (moleculeExamples, $('#moleculeExample').val().trim());
@@ -104,7 +140,7 @@
 
 	$.getJSON("molecules.json", function(json) {
     moleculeExamples = json;
-    newMoleculeSimulation (moleculeExamples, '2-amino-propanoic_acid');
+    original_newMoleculeSimulation (moleculeExamples, '2-amino-propanoic_acid');
 	});
 	
 	var orgoShmorgo = function(graph) {
@@ -428,13 +464,21 @@
 
 	 	};
 
-	 	var retriveAtom = function  (atomID) {
+	 	retriveAtom = function  (atomID) {
 	 		for (var i = nodes.length - 1; i >= 0; i--) {
 	 			if (nodes[i].id === atomID)
 	 				return nodes[i];
 	 		}
 	 		return null;
-	 	};
+		 };
+		 
+		 retrieveLink = function(id)
+		 {
+			 for (var i= 0; i<links.length; ++i)
+				 if (id === links[i].id)
+					 return links[i];
+			return null;
+		 }
 
 	  function addNewAtom (atomType, atomSize) {
 			var newAtom = {

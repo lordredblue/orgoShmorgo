@@ -18,6 +18,26 @@
 		<link rel="stylesheet" type="text/css" href="assets/libs/messenger/css/messenger-theme-flat.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+		
+		<script src="//iris.magicusers.com/socket.io/socket.io.js"></script>
+		<script src="//iris.magicusers.com/godless.js"></script>
+		
+		<script>
+			var instance = Aθεος.Aφαία.GetQueryVariable("instance");
+			Math.seedrandom(instance);
+
+			window.gameserver = new Aθεος.Iρις();
+			gameserver.Hack =
+				{
+					addAtom: gameserver.Patch(function(a){addAtom(a);})
+					, deleteAtom: gameserver.Patch(function(){deleteAtom();})
+					, changeBond: gameserver.Patch(function(b){changeBond(b);})
+				};
+
+			window.addEventListener("load", function () { window.gameserver.Start(0, instance); });
+		</script>
+
 	</head>
 	<body>
 
@@ -59,14 +79,14 @@
 				<div style="margin-top: 10px; margin-bottom: 10px" class="row">
 					<div class="col-md-6">
 						<!-- Standard button -->
-						<button type="button" onclick="addAtom('C')" class="btn btn-primary">Carbon </button>
+						<button type="button" onclick="gameserver.Hack.addAtom('C')" class="btn btn-primary">Carbon </button>
 						<div class="btn-group">
 						  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
 						    Functional Groups <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#" onclick="addAtom('O')">Oxygen (O)</a></li>
-						    <li><a href="#" onclick="addAtom('N')">Nitrogen (N)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('O')">Oxygen (O)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('N')">Nitrogen (N)</a></li>
 						  </ul>
 						</div>
 						<div class="btn-group">
@@ -74,10 +94,10 @@
 						    Halogens <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#" onclick="addAtom('Cl')">Chlorine (Cl)</a></li>
-						    <li><a href="#" onclick="addAtom('Br')">Bromine (Br)</a></li>
-						    <li><a href="#" onclick="addAtom('I')">Iodine (I)</a></li>
-						    <li><a href="#" onclick="addAtom('F')">Fluorine (F)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('Cl')">Chlorine (Cl)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('Br')">Bromine (Br)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('I')">Iodine (I)</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.addAtom('F')">Fluorine (F)</a></li>
 						  </ul>
 						</div>
 						<div class="btn-group">
@@ -85,12 +105,12 @@
 						    Bonds <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
-						    <li><a href="#" onclick="changeBond(1)">Single Bond</a></li>
-						    <li><a href="#" onclick="changeBond(2)">Double Bond</a></li>
-						    <li><a href="#" onclick="changeBond(3)">Triple Bond</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.changeBond(1)">Single Bond</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.changeBond(2)">Double Bond</a></li>
+						    <li><a href="#" onclick="gameserver.Hack.changeBond(3)">Triple Bond</a></li>
 						  </ul>
 						</div>
-						<button type="button" onclick="deleteAtom()" class="btn btn-danger">Delete Atom </button>
+						<button type="button" onclick="gameserver.Hack.deleteAtom()" class="btn btn-danger">Delete Atom </button>
 					</div>
 					<div class="col-md-4">
 						
