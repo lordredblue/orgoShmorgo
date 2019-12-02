@@ -20,8 +20,8 @@
 		
 		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 		
-		<script src="//iris.magicusers.com/socket.io/socket.io.js"></script>
-		<script src="//iris.magicusers.com/godless.js"></script>
+	
+		<script src="//iris.magicusers.com/atheos/rhea"></script>
 		
 		<script>
 			var instance = Aθεος.Aφαία.GetQueryVariable("instance");
@@ -35,7 +35,7 @@
 					, changeBond: gameserver.Patch(function(b){changeBond(b);})
 				};
 
-			window.addEventListener("load", function () { window.gameserver.Start("https://iris.magicusers.com", 0, instance); });
+			window.addEventListener("load", function () { window.gameserver.Start(0, instance); });
 		</script>
 
 	</head>
