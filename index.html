@@ -21,48 +21,11 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 
-	<script src="//iris.magicusers.com/atheos/afrodite.js"></script>
-	<link rel="stylesheet" href="//iris.magicusers.com/atheos/afrodite.css">
-	<style>
-		.Aφρός_Αφροδίτη_window_BannerPane {
-			top: 0;
-			opacity: 66%;
-		}
-	</style>
-
-	<script>
-
-		class GameControl extends Aθεος.Αφροδίτη.SharedWorldControl
-		{
-			constructor()
-			{
-				super({
-					ReloadDocumentOnReset: true
-				});
-				Math.seedrandom(this.options.InstanceID);
-
-				this.Hack =
-					{
-						addAtom: this.Patch(function (a) { addAtom(a); })
-						, deleteAtom: this.Patch(function () { deleteAtom(); })
-						, changeBond: this.Patch(function (b) { changeBond(b); })
-					};
-			}
-			OnInit()
-			{
-				this.dgBanner.Show("Mollykula");
-			}
-
-		}
-
-		window.gameserver = new GameControl();
-
-	</script>
 
 </head>
 
 <body>
-
+	<div id="idMagicUsersContainer" title="Tap for more online juice"></div>
 	<!-- container for svg root element -->
 	<div class="container">
 		<div id="controlPanel" class="row">
@@ -155,7 +118,6 @@
 		</footer>
 	</div>
 
-
 	<!-- Javascript -->
 	<script type="text/javascript" src="assets/libs/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="assets/libs/bootstrap/js/bootstrap-3.0.3.min.js"></script>
@@ -173,6 +135,48 @@
 	<script type="text/javascript" src="assets/libs/glow.js"></script>
 	<script type="text/javascript" src="assets/js/atomDB.js"></script>
 	<script type="text/javascript" src="assets/js/main.js"></script>
+
+	
+	<script src="//iris.magicusers.com/atheos/afrodite.js"></script>
+	<link rel="stylesheet" href="//iris.magicusers.com/atheos/themes/app.light.css">
+	<style>
+		#idMagicUsersContainer {
+			position: fixed;
+			top: 0;
+			height:1.1618em;
+			width:100%;
+		}
+</style>
+	
+	<script>
+	
+		class GameControl extends Aθεος.Αφροδίτη.SharedWorldControl
+		{
+			constructor()
+			{
+				super({
+					ReloadDocumentOnReset: true
+					,Title:"Mollykula"
+					,Container:document.getElementById("idMagicUsersContainer")
+				});
+				Math.seedrandom(this.options.InstanceID);
+	
+				this.Hack =
+				{
+					addAtom: this.Patch(function (a) { addAtom(a); })
+					, deleteAtom: this.Patch(function () { deleteAtom(); })
+					, changeBond: this.Patch(function (b) { changeBond(b); })
+				};
+			}
+		}
+
+		Aθεος.Αφροδίτη.OnReady().then(()=> {
+			window.gameserver = new GameControl();
+			gamestart();
+		});
+
+		;
+		</script>
 </body>
 
 </html>

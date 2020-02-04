@@ -1,5 +1,5 @@
 
-
+var gamestart=
 (function () {
 	var width = 1160,
 	    height = 600;
@@ -558,4 +558,4 @@
 	    node.attr("transform", function(d) {return "translate(" + d.x + "," + d.y + ")"; });
 	  }
 	};
-})();
+});
